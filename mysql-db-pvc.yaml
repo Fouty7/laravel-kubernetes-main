@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-db-claim0
+  labels:
+    io.kompose.service: mysql-db-claim0
+spec:
+  volumeName: mysql-db-claim0
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

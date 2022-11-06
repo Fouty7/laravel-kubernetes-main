@@ -1,0 +1,31 @@
+version: '3.5'
+services:
+  laravel-app:
+    build:
+      context: '.'
+      args:
+        uid: ${UID}
+    image: aminfourty7/laravel-kubernetes-main:latest
+    restart: always 
+    container_name: laravel-app
+    environment:
+      - APACHE_RUN_USER=#${UID}
+      - APACHE_RUN_GROUP=#${UID}
+    #volumes:
+    #  - .:/var/www/html
+    ports:
+      - ${HOST_PORT}:80
+
+  mysql-db:
+    image: mysql:5.7
+    restart: always
+    container_name: mysql-db
+    volumes:
+      - ./run/var:/var/lib/mysql
+    ports:
+      - ${FORWARD_DB_PORT}:3306  
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=laravel
+      - MYSQL_PASSWORD=${DB_PASSWORD}
