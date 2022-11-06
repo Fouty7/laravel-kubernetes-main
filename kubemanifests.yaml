@@ -67,9 +67,9 @@ items:
           containers:
             - env:
                 - name: APACHE_RUN_GROUP
-                  value: 'www-data'
+                  value: "www-data"
                 - name: APACHE_RUN_USER
-                  value: 'www-data'
+                  value: "www-data"
               image: aminfourty7/laravel-kubernetes-main:latest
               name: laravel-app
               ports:
@@ -107,9 +107,13 @@ items:
           containers:
             - env:
                 - name: MYSQL_DATABASE
+                  value:  laravel
                 - name: MYSQL_PASSWORD
+                  value: password
                 - name: MYSQL_ROOT_PASSWORD
+                  value: password
                 - name: MYSQL_USER
+                  value: laravel
               image: mysql:5.7
               name: mysql-db
               ports:
