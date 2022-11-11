@@ -8,23 +8,29 @@ jobs:
   build-nodeapp-dockerimage:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: build-nodeapp-image
-      run: |
-        docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
-        docker build -t aminfourty7/test-laravel:latest .
-        docker push aminfourty7/test-laravel:latest
+      - uses: actions/checkout@v2
+      - name: build-nodeapp-image
+        run: |
+          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+          docker build -t aminfourty7/test-laravel:latest .
+          docker push aminfourty7/test-laravel:latest
   get-instance-ip:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Add instance-end ip to ansible inventory
-      run: |
-        aws ec2 describe-instances \
-        --query 'Reservations[*].Instances[*].PublicIpAddress' \
-        --filters "Name=tag:project,Values=docker-server" \
-        --output text >> ~/project/inventory
-        cat ~/project/inventory
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - uses: actions/checkout@v2
+      - name: Add instance-end ip to ansible inventory
+        run: |
+          aws ec2 describe-instances \
+          --query 'Reservations[*].Instances[*].PublicIpAddress' \
+          --filters "Name=tag:project,Values=docker-server" \
+          --output text >> ~/project/inventory
+          cat ~/project/inventory
     - persist_to_workspace:
         root: ~/
         paths:
