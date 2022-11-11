@@ -18,6 +18,7 @@ jobs:
   get-ec2-ip-addr:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
