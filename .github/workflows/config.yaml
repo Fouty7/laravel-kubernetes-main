@@ -8,43 +8,43 @@ jobs:
   build-nodeapp-dockerimage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: build-nodeapp-image
-        run: |
-          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
-          docker build -t aminfourty7/test-laravel:latest .
-          docker push aminfourty7/test-laravel:latest
+    - uses: actions/checkout@v2
+    - name: build-nodeapp-image
+      run: |
+        docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+        docker build -t aminfourty7/test-laravel:latest .
+        docker push aminfourty7/test-laravel:latest
   get-instance-ip:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Add instance-end ip to ansible inventory
-        run: |
-          aws ec2 describe-instances \
-          --query 'Reservations[*].Instances[*].PublicIpAddress' \
-          --filters "Name=tag:project,Values=docker-server" \
-          --output text >> ~/project/inventory
-          cat ~/project/inventory
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/inventory
+    - uses: actions/checkout@v2
+    - name: Add instance-end ip to ansible inventory
+      run: |
+        aws ec2 describe-instances \
+        --query 'Reservations[*].Instances[*].PublicIpAddress' \
+        --filters "Name=tag:project,Values=docker-server" \
+        --output text >> ~/project/inventory
+        cat ~/project/inventory
+    - persist_to_workspace:
+        root: ~/
+        paths:
+          - project/inventory
   run-containers:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - add_ssh_keys:
-          fingerprints: ["9f:7e:0b:c8:94:45:60:f3:7a:95:ef:73:ca:42:dd:62"]
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible tar gzip aws-cli
-      - attach_workspace:
-          at: ~/    
-      - run:
-          name: run containers
-          command:
-            ansible-playbook -i inventory docker-ansible.yaml                            
+    - uses: actions/checkout@v2
+    - add_ssh_keys:
+        fingerprints: ["9f:7e:0b:c8:94:45:60:f3:7a:95:ef:73:ca:42:dd:62"]
+    - run:
+        name: Install dependencies
+        command: |
+          apk add --update ansible tar gzip aws-cli
+    - attach_workspace:
+        at: ~/    
+    - run:
+        name: run containers
+        command:
+          ansible-playbook -i inventory docker-ansible.yaml                            
 #workflows:
 #  docker-deployment:
 #    jobs:
