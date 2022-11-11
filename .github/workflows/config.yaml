@@ -14,6 +14,7 @@ jobs:
           docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
           docker build -t aminfourty7/test-laravel:latest .
           docker push aminfourty7/test-laravel:latest
+
   get-instance-ip:
     runs-on: ubuntu-latest
     steps:
