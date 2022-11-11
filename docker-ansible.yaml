@@ -1,0 +1,20 @@
+---
+- name: configuration play 
+  hosts: web
+  user: ubuntu
+  become: true
+  become_method: sudo
+  gather_facts: false
+  tasks:
+
+  - name: copy files
+    copy:
+      src: ./
+      dest: laravel/
+
+  - name: start nginx container
+    shell: |
+      cd laravel
+      docker image ls
+      docker compose up -d --build
+      docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
