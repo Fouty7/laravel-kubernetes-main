@@ -15,7 +15,7 @@ jobs:
           docker build -t aminfourty7/test-laravel:latest .
           docker push aminfourty7/test-laravel:latest
 
-  get-ip:
+  get-ec2-ip-addr:
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS Credentials
