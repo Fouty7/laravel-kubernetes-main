@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -36,19 +37,15 @@ jobs:
   run-containers:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - add_ssh_keys:
-        fingerprints: ["9f:7e:0b:c8:94:45:60:f3:7a:95:ef:73:ca:42:dd:62"]
-    - run:
-        name: Install dependencies
-        command: |
-          apk add --update ansible tar gzip aws-cli
-    - attach_workspace:
-        at: ~/    
-    - run:
-        name: run containers
-        command:
-          ansible-playbook -i inventory docker-ansible.yaml                            
+      - uses: actions/checkout@v2
+      - add_ssh_keys:
+          fingerprints: ["9f:7e:0b:c8:94:45:60:f3:7a:95:ef:73:ca:42:dd:62"]
+      - name: Install dependencies
+        run: apk add --update ansible tar gzip aws-cli
+      - attach_workspace:
+          at: ~/
+      - name: run containers
+        run: ansible-playbook -i inventory docker-ansible.yaml                            
 #workflows:
 #  docker-deployment:
 #    jobs:
