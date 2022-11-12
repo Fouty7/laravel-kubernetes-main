@@ -33,7 +33,7 @@ jobs:
           --query 'Reservations[*].Instances[*].PublicIpAddress' \
           --filters "Name=tag:project,Values=docker-server" \
           --output text >> ~/inventory
-          cat ~/inventory
+          echo ~/inventory
       - name: persist to workspace
         uses: actions/upload-artifact@v3
         with:
