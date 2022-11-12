@@ -34,11 +34,21 @@ jobs:
           --filters "Name=tag:project,Values=docker-server" \
           --output text >> ~/inventory
           cat ~/inventory
+      - name: persist to workspace
+        uses: actions/upload-artifact@v3
+        with:
+          name: inventory
+          path: ~/inventory
   run-containers:
     runs-on: ubuntu-latest
+    needs: [get-ec2-ip-addr]
     steps:
       - uses: actions/checkout@v2
+      - name: attach workspace
+        uses: actions/download-artifact@v3
+        with:
+          name: inventory
       - name: Install dependencies
-        run: sudo apt-get install ansible tar gzip aws-cli
+        run: sudo apt-get install ansible tar gzip
       - name: run containers
         run: ansible-playbook -i inventory docker-ansible.yaml
