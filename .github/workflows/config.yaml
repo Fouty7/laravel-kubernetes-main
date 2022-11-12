@@ -5,15 +5,15 @@ on:
     branches: [ main ]
 
 jobs:
-  build-laravel-image:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: build-laravel-image
-        run: |
-          docker login -u ${{ secrets.DOCKERHUB_USER }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-          docker build -t aminfourty7/test-laravel:latest .
-          docker push aminfourty7/test-laravel:latest
+  #build-laravel-image:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: build-laravel-image
+  #      run: |
+  #        docker login -u ${{ secrets.DOCKERHUB_USER }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+  #        docker build -t aminfourty7/test-laravel:latest .
+  #        docker push aminfourty7/test-laravel:latest
 
   get-ec2-ip-addr:
     runs-on: ubuntu-latest
@@ -39,6 +39,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: apk add --update ansible tar gzip aws-cli
+        run: sudo apt-get install ansible tar gzip aws-cli
       - name: run containers
         run: ansible-playbook -i inventory docker-ansible.yaml
