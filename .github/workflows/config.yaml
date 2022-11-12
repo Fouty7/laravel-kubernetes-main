@@ -41,7 +41,7 @@ jobs:
   #        path: ~/inventory
   run-containers:
     runs-on: ubuntu-latest
-    needs: [get-ec2-ip-addr]
+    #needs: [get-ec2-ip-addr]
     steps:
       - uses: actions/checkout@v2
       #- name: attach workspace
