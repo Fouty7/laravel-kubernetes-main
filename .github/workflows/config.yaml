@@ -43,7 +43,9 @@ jobs:
     runs-on: ubuntu-latest
     #needs: [get-ec2-ip-addr]
     steps:
-      - uses: webfactory/ssh-agent@v0.6.0
+      - uses: actions/checkout@v2
+      - name: get ssh key
+        uses: webfactory/ssh-agent@v0.6.0
         with:
             ssh-private-key: ${{ secrets.AWS_PRIVATE_KEY }}
       #- name: attach workspace
@@ -53,5 +55,4 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install ansible tar gzip
       - name: run containers
-        - uses: actions/checkout@v2
         run: ansible-playbook -i inventory docker-ansible.yaml
