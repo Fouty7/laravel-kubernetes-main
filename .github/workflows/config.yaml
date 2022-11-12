@@ -32,7 +32,7 @@ jobs:
           aws ec2 describe-instances \
           --query 'Reservations[*].Instances[*].PublicIpAddress' \
           --filters "Name=tag:project,Values=docker-server" \
-          --output text >> ~/project/inventory
+          --output text >> ~/inventory
           cat ~/project/inventory
   run-containers:
     runs-on: ubuntu-latest
