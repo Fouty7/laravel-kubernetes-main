@@ -53,4 +53,5 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get install ansible tar gzip
       - name: run containers
+        - uses: actions/checkout@v2
         run: ansible-playbook -i inventory docker-ansible.yaml
