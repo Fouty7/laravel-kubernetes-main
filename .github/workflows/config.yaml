@@ -33,7 +33,7 @@ jobs:
           --query 'Reservations[*].Instances[*].PublicIpAddress' \
           --filters "Name=tag:project,Values=docker-server" \
           --output text >> ~/inventory
-          cat ~/project/inventory
+          cat ~/inventory
   run-containers:
     runs-on: ubuntu-latest
     steps:
